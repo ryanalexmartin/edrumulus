@@ -43,7 +43,7 @@ elif use_serial:
   if "serial" in sys.argv and len(sys.argv) > sys.argv.index("serial") + 1:
     serial_dev = sys.argv[sys.argv.index("serial") + 1]
   else:
-    serial_dev = "/dev/ttyUSB0" if platform.system() == "Linux" else ("COM7" if is_windows else "/dev/tty.SLAB_USBtoUART")
+    serial_dev = "/dev/ttyUSB0" if platform.system() == "Linux" else ("COM7" if is_windows else "/dev/cu.usbserial-57470274721")
 else:
   import jack
 if use_lcd:

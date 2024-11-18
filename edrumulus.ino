@@ -22,8 +22,8 @@
 // to match your hardware (note that the GPIO assignment of Prototype 2 is the same as Prototype 4).
 // clang-format off
 // analog pins setup:               snare | kick | hi-hat | hi-hat-ctrl | crash | tom1 | ride | tom2 | tom3
-static int analog_pins4[]         = { 36,    33,     32,       25,         34,     39,    27,    12,    15 };
-static int analog_pins_rimshot4[] = { 35,    -1,     26,       -1,         14,     -1,    13,    -1,    -1 };
+static int analog_pins4[]         = { 36,    33,     32,        -1,         34,     39,    27,    12,    15 };
+static int analog_pins_rimshot4[] = { -1,    -1,     -1,       -1,         -1,     -1,    -1,    -1,    -1 };
 // clang-format on
 
 // if you want to use less number of pads, simply adjust number_pads4 value
@@ -192,23 +192,23 @@ void loop()
       if (edrumulus.get_pos_sense_is_used(pad_idx))
       {
         const int midi_pos = edrumulus.get_midi_pos(pad_idx);
-        MYMIDI.sendControlChange(16, midi_pos, midi_channel); // positional sensing
+        // MYMIDI.sendControlChange(16, midi_pos, midi_channel); // positional sensing
       }
 
-      // send Hi-Hat control message right before each Hi-Hat pad hit
-      if (pad_idx == hihat_pad_idx)
-      {
-        const int  midi_ctrl_ch    = edrumulus.get_midi_ctrl_ch(hihatctrl_pad_idx);
-        const int  midi_ctrl_value = edrumulus.get_midi_ctrl_value(hihatctrl_pad_idx);
-        const bool hi_hat_is_open  = edrumulus.get_midi_ctrl_is_open(hihatctrl_pad_idx);
-        MYMIDI.sendControlChange(midi_ctrl_ch, midi_ctrl_value, midi_channel);
+      // // send Hi-Hat control message right before each Hi-Hat pad hit
+      // if (pad_idx == hihat_pad_idx)
+      // {
+      //   const int  midi_ctrl_ch    = edrumulus.get_midi_ctrl_ch(hihatctrl_pad_idx);
+      //   const int  midi_ctrl_value = edrumulus.get_midi_ctrl_value(hihatctrl_pad_idx);
+      //   const bool hi_hat_is_open  = edrumulus.get_midi_ctrl_is_open(hihatctrl_pad_idx);
+      //   MYMIDI.sendControlChange(midi_ctrl_ch, midi_ctrl_value, midi_channel);
 
-        // if Hi-Hat is open, overwrite MIDI note
-        if (hi_hat_is_open)
-        {
-          midi_note = edrumulus.get_midi_note_open(pad_idx);
-        }
-      }
+      //   // if Hi-Hat is open, overwrite MIDI note
+      //   if (hi_hat_is_open)
+      //   {
+      //     midi_note = edrumulus.get_midi_note_open(pad_idx);
+      //   }
+      // }
 
       MYMIDI.sendNoteOn(midi_note, midi_velocity, midi_channel); // (note, velocity, channel)
       MYMIDI.sendNoteOff(midi_note, 0, midi_channel);            // we need a note off
@@ -218,7 +218,7 @@ void loop()
     {
       const int midi_ctrl_ch    = edrumulus.get_midi_ctrl_ch(pad_idx);
       const int midi_ctrl_value = edrumulus.get_midi_ctrl_value(pad_idx);
-      MYMIDI.sendControlChange(midi_ctrl_ch, midi_ctrl_value, midi_channel);
+      // MYMIDI.sendControlChange(midi_ctrl_ch, midi_ctrl_value, midi_channel);
     }
 
     if (edrumulus.get_choke_on_found(pad_idx))
